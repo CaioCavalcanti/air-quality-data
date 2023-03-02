@@ -1,6 +1,6 @@
-from datetime import datetime
 from prefect import flow, task
 from prefect_gcp.cloud_storage import GcsBucket
+
 
 @task(
     name="Check Data Lake",
@@ -9,22 +9,24 @@ from prefect_gcp.cloud_storage import GcsBucket
     tags=["health-check"],
     retries=3,
     retry_delay_seconds=5,
+    log_prints=True
 )
 def check_gcs_data_lake():
     data_lake_block = GcsBucket.load("data-lake")
-    assert data_lake_block.get_bucket().exists()
+    bucket = data_lake_block.get_bucket()
+
+    print(f"GCS Bucket Data Lake: Healthy")
 
 
 @flow(
     name="Health Check",
     description="Check the health state of Prefect and installed blocks.",
-    flow_run_name="health-check-on-{date:%Y-%m-%dT%H:%M:%S}",
-    timeout_seconds=60
+    timeout_seconds=60,
+    log_prints=True
 )
-def check_health(date: datetime):
-    print('all good!')
+def check_health():
     check_gcs_data_lake()
 
 
 if __name__ == '__main__':
-    check_health(datetime.utcnow())
+    check_health()
