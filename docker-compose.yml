@@ -67,7 +67,9 @@ services:
       PREFECT_API_URL: http://prefect-server:4200/api
       PREFECT_LOGGING_LEVEL: DEBUG
       DOCKER_HOST: unix://var/run/docker.sock
+      GOOGLE_APPLICATION_CREDENTIALS: /.config/gcloud/application_default_credentials.json
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./.gcp_keys/sa-prefect-agent_gcp_key.json:/.config/gcloud/application_default_credentials.json
     networks:
       - prefect

@@ -44,6 +44,7 @@ def create_deployment(flows_storage_block: GCS, destination: str) -> None:
         schedule=every_hour_cron,
         storage=flows_storage_block,
         path=destination,
+        entrypoint=f"main_flow.py:{check_health.__name__}",
         tags=['health-check'],
         skip_upload=True
     )

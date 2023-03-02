@@ -14,6 +14,12 @@ The goal of this project is to explore air quality data from different countries
 - Google Cloud CLI
 - Docker
 
+## Google Cloud Permissions
+
+Ensure you have minimum roles with the following permissions in order to setup the environment with `terraform`:
+- storage.buckets.getIamPolicy
+- storage.buckets.get
+
 # Running
 
 ```sh
@@ -50,6 +56,9 @@ pip install -r requirements-dev.txt
 # build prefect Docker images
 docker build --no-cache -f ./prefect/PrefectServer.Dockerfile -t prefect-server:2.8.3 .
 docker build --no-cache -f ./prefect/PrefectAgent.Dockerfile -t prefect-agent:2.8.3 .
+
+# generate the service account json keys to be used on the local containers
+gcloud iam service-accounts keys create ./.gcp_keys/sa-prefect-agent_gcp_key.json --iam-account=sa-prefect-agent@$GCP_PROJECT_ID.iam.gserviceaccount.com
 
 # run infrastructure
 docker-compose up
