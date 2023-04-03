@@ -59,4 +59,4 @@ jobs:
 
       - name: Upload to Artifact Registry
         run: |
-          python -m twine upload --repository https://${GCP_REGION}-python.pkg.dev/${GCP_PROJECT_ID}/${GCP_PYTHON_REPOSITORY_NAME}/ dist/*
+          python -m twine upload --repository https://${GCP_REGION}-python.pkg.dev/${GCP_PROJECT_ID}/${GCP_PYTHON_REPOSITORY_NAME} dist/*
