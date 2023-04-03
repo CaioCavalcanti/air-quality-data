@@ -1,5 +1,4 @@
-name: publish-spark-package.yaml
-run-name: Publish Python Package air-quality-spark
+name: Publish Python Package air-quality-spark
 
 on:
   push:
@@ -9,7 +8,8 @@ on:
       - "spark/air-quality-spark/**"
 
 jobs:
-  publish-package-air-quality-spark:
+  build-and-publish:
+    name: Build and Publish Python Package air-quality-spark
     permissions:
       contents: "read"
       id-token: "write"
