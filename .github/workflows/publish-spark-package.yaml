@@ -45,8 +45,8 @@ jobs:
       - name: "Authenticate to Google Cloud"
         uses: "google-github-actions/auth@v1"
         with:
-          workload_identity_provider: "$GCP_WORKLOAD_IDENTITY_PROVIDER"
-          service_account: "$GCP_DEVOPS_SERVICE_ACCOUNT"
+          workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.GCP_DEVOPS_SERVICE_ACCOUNT }}
 
       - name: Upload to Artifact Registry
         run: |
