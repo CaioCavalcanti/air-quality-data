@@ -9,7 +9,7 @@ on:
       - "spark/air-quality-spark/**"
 
 jobs:
-  check-bats-version:
+  publish-package-air-quality-spark:
     runs-on: ubuntu-latest
     defaults:
       run:
