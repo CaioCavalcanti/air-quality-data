@@ -50,4 +50,5 @@ jobs:
 
       - name: Upload to Artifact Registry
         run: |
+          gcloud artifacts print-settings python --project=${GCP_PROJECT_ID} --repository=${GCP_PYTHON_REPOSITORY_NAME} --location=${GCP_REGION} > ~/.pypirc
           python -m twine upload --repository https://${GCP_REGION}-python.pkg.dev/${GCP_PROJECT_ID}/${GCP_PYTHON_REPOSITORY_NAME}/ dist/*
