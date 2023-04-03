@@ -35,21 +35,3 @@ transformed_df = raw_df.groupBy('date', 'type').sum('value')
 # this will write to 'gs://data_lake_gcs_bucket_name/Transformed/DailyEvents/'
 context.write_to_transformed(transformed_df, 'DailyEvents/')
 ```
-
-# Publishing the package
-
-```sh
-export GCP_PROJECT_ID=<THE GCP PROJECT ID>
-export REGION=<THE GCP REGION>
-export REPOSITORY_NAME=python-${GCP_PROJECT_ID}
-export REPOSITORY_URL=https://${REGION}-python.pkg.dev/${GCP_PROJECT_ID}/${REPOSITORY_NAME}/
-
-# build the package
-python ./setup.py bdist_wheel
-
-# use the DevOps Service Account (the one used on the build agent) on GCP
-gcloud auth activate-service-account --key-file=..\..\.gcp_keys\sa-devops-agent_gcp_key.json
-
-# upload the package to the private repository
-twine upload dist/* --repository-url ${REPOSITORY_URL}
-```
