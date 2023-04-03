@@ -5,7 +5,6 @@ on:
     branches:
       - "main"
     paths:
-      - ".github/workflows/publish-spark-package.yaml"
       - "spark/air-quality-spark/**"
 
 jobs:
@@ -55,7 +54,6 @@ jobs:
       - name: Setup Artifact Registry
         run: |
           gcloud artifacts print-settings python --project=${GCP_PROJECT_ID} --repository=${GCP_PYTHON_REPOSITORY_NAME} --location=${GCP_REGION} > ~/.pypirc
-          gcloud artifacts print-settings python --project=${GCP_PROJECT_ID} --repository=${GCP_PYTHON_REPOSITORY_NAME} --location=${GCP_REGION}
 
       - name: Upload to Artifact Registry
         run: |
