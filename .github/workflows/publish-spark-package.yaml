@@ -1,0 +1,53 @@
+name: publish-spark-package.yaml
+run-name: Publish Python Package air-quality-spark
+
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "spark/air-quality-spark/**"
+
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: spark/air-quality-spark/
+    strategy:
+      matrix:
+        python-version: [3.9]
+    env:
+      GCP_WORKLOAD_IDENTITY_PROVIDER: "${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}"
+      GCP_DEVOPS_SERVICE_ACCOUNT: "${{ secrets.GCP_DEVOPS_SERVICE_ACCOUNT }}"
+      GCP_PROJECT_ID: "${{ secrets.GCP_PROJECT_ID }}"
+      GCP_REPOSITORY_NAME: "${{ secrets.GCP_REPOSITORY_NAME }}"
+      GCP_REGION: "${{ secrets.GCP_REGION }}"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build Package
+        run: |
+          python setup.py bdist_wheel
+
+      - name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          workload_identity_provider: "$GCP_WORKLOAD_IDENTITY_PROVIDER"
+          service_account: "$GCP_DEVOPS_SERVICE_ACCOUNT"
+
+      - name: Upload to Artifact Registry
+        run: |
+          python -m twine upload --repository https://${GCP_REGION}-python.pkg.dev/${GCP_PROJECT_ID}/${GCP_REPOSITORY_NAME}/ dist/*
