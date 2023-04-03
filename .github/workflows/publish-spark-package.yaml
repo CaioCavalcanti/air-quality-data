@@ -5,6 +5,7 @@ on:
     branches:
       - "main"
     paths:
+      - ".github/workflows/publish-spark-package.yaml"
       - "spark/air-quality-spark/**"
 
 jobs:
@@ -47,6 +48,9 @@ jobs:
         with:
           workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ env.GCP_DEVOPS_SERVICE_ACCOUNT }}
+
+      - name: "Set up Google Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
 
       - name: Upload to Artifact Registry
         run: |
