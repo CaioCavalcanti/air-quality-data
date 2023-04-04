@@ -5,7 +5,7 @@ on:
     branches:
       - "main"
     paths:
-      - "spark/air-quality-orchestration/**"
+      - "prefect/air-quality-orchestration/**"
 
 jobs:
   build-and-publish:
@@ -16,7 +16,7 @@ jobs:
       id-token: "write"
     with:
       package_name: air-quality-orchestration
-      setup_path: spark/air-quality-orchestration/
+      setup_path: prefect/air-quality-orchestration/
     secrets:
       GCP_WORKLOAD_IDENTITY_PROVIDER: "${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}"
       GCP_DEVOPS_SERVICE_ACCOUNT: "${{ secrets.GCP_DEVOPS_SERVICE_ACCOUNT }}"
