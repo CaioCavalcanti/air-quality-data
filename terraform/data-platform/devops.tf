@@ -6,6 +6,10 @@ locals {
     "artifactregistry.googleapis.com",
     "dataproc.googleapis.com"
   ]
+  required_roles = [
+    "roles/editor",
+    "roles/storage.admin"
+  ]
 }
 
 resource "google_project_service" "required_services" {
@@ -20,9 +24,10 @@ resource "google_service_account" "devops_service_account" {
 }
 
 resource "google_project_iam_member" "devops_service_account_editor" {
-  project = var.gcp_project_id
-  role    = "roles/editor"
-  member  = google_service_account.devops_service_account.member
+  for_each = toset(local.required_roles)
+  project  = var.gcp_project_id
+  role     = each.key
+  member   = google_service_account.devops_service_account.member
 }
 
 # See https://binx.io/2022/09/26/setup-keyless-authentication-to-google-cloud-for-github-actions-using-terraform/
