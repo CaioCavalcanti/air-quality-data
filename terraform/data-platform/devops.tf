@@ -55,7 +55,3 @@ resource "google_service_account_iam_member" "github_workload_identity_user" {
   role               = "roles/iam.workloadIdentityUser"
   member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.devops.name}/attribute.repository/${var.github_repository}"
 }
-
-data "google_storage_bucket" "tfstate" {
-  name = var.gcp_gcs_tfstate_bucket_name
-}

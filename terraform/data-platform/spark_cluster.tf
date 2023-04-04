@@ -53,13 +53,13 @@ resource "google_storage_bucket" "spark_temp" {
 
 resource "google_storage_bucket_object" "initialization-action-pip-packages" {
   name   = "initialization-actions/pip-packages.sh"
-  source = "../../spark/initialization-actions/pip-packages.sh"
+  source = "${var.workspace_path}/spark/initialization-actions/pip-packages.sh"
   bucket = google_storage_bucket.spark_staging.name
 }
 
 resource "google_storage_bucket_object" "initialization-action-bigquery-connectors" {
   name   = "initialization-actions/bigquery-connectors.sh"
-  source = "../../spark/initialization-actions/bigquery-connectors.sh"
+  source = "${var.workspace_path}/spark/initialization-actions/bigquery-connectors.sh"
   bucket = google_storage_bucket.spark_staging.name
 }
 
