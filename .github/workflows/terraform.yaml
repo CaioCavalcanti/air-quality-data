@@ -13,6 +13,9 @@ jobs:
   plan:
     name: Plan
     runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      id-token: "write"
     defaults:
       run:
         working-directory: terraform/data-platform/
@@ -44,6 +47,9 @@ jobs:
   apply:
     name: Apply
     runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      id-token: "write"
     defaults:
       run:
         working-directory: terraform/data-platform/
