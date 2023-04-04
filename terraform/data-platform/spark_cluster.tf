@@ -1,8 +1,3 @@
-resource "google_project_service" "dataproc" {
-  project = var.gcp_project_id
-  service = "dataproc.googleapis.com"
-}
-
 resource "google_service_account" "spark_agent_service_account" {
   account_id   = "sa-spark-agent"
   display_name = "Spark Agent Service Account"
@@ -142,7 +137,7 @@ resource "google_dataproc_cluster" "spark_cluster" {
   }
 
   depends_on = [
-    google_project_service.dataproc,
+    google_project_service.required_services,
     google_project_iam_member.spark_agent_service_account_dataproc_worker,
     google_storage_bucket_object.initialization-action-pip-packages,
     google_storage_bucket_object.initialization-action-bigquery-connectors
