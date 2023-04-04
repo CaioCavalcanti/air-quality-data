@@ -1,22 +1,22 @@
-name: Publish Python Package air-quality-spark
+name: Publish and Publish Python Package air-quality-lakehouse
 
 on:
   push:
     branches:
       - "main"
     paths:
-      - "spark/air-quality-spark/**"
+      - "spark/air-quality-lakehouse/**"
 
 jobs:
   build-and-publish:
-    name: Build and Publish Python Package air-quality-spark
+    name: Build and Publish Python Package air-quality-lakehouse
     permissions:
       contents: "read"
       id-token: "write"
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: spark/air-quality-spark/
+        working-directory: spark/air-quality-lakehouse/
     env:
       GCP_WORKLOAD_IDENTITY_PROVIDER: "${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}"
       GCP_DEVOPS_SERVICE_ACCOUNT: "${{ secrets.GCP_DEVOPS_SERVICE_ACCOUNT }}"

@@ -1,0 +1,77 @@
+name: Deploy GCP Infrastructure using Terraform
+
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - ".github/workflows/terraform.yaml"
+      - "terraform/**"
+      - "spark/initialization-actions/**"
+
+jobs:
+  plan:
+    name: Plan
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform/data-platform/
+    env:
+      GCP_WORKLOAD_IDENTITY_PROVIDER: "${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}"
+      GCP_DEVOPS_SERVICE_ACCOUNT: "${{ secrets.GCP_DEVOPS_SERVICE_ACCOUNT }}"
+      GCP_GCS_TFSTATE_BUCKET_NAME: "${{ secrets.GCP_GCS_TFSTATE_BUCKET_NAME }}"
+      TF_VAR_gcp_project_id: "${{ secrets.GCP_PROJECT_ID }}"
+      TF_VAR_region: "${{ secrets.GCP_REGION }}"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.GCP_DEVOPS_SERVICE_ACCOUNT }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform Init
+        run: terraform init -backend-config="bucket=${{ env.GCP_GCS_TFSTATE_BUCKET_NAME }}"
+
+      - name: Terraform Plan
+        run: terraform plan
+
+  apply:
+    name: Apply
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform/data-platform/
+    needs: plan
+    # use environment to enforce approval
+    environment:
+      name: production
+    env:
+      GCP_WORKLOAD_IDENTITY_PROVIDER: "${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}"
+      GCP_DEVOPS_SERVICE_ACCOUNT: "${{ secrets.GCP_DEVOPS_SERVICE_ACCOUNT }}"
+      GCP_GCS_TFSTATE_BUCKET_NAME: "${{ secrets.GCP_GCS_TFSTATE_BUCKET_NAME }}"
+      TF_VAR_gcp_project_id: "${{ secrets.GCP_PROJECT_ID }}"
+      TF_VAR_gcp_region: "${{ secrets.GCP_REGION }}"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.GCP_DEVOPS_SERVICE_ACCOUNT }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform Init
+        run: terraform init -backend-config="bucket=${{ env.GCP_GCS_TFSTATE_BUCKET_NAME }}"
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
