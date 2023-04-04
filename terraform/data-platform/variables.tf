@@ -13,9 +13,3 @@ variable "github_repository" {
   type        = string
   default     = "CaioCavalcanti/air-quality-data"
 }
-
-variable "workspace_path" {
-  description = "The root path for the current workspace. Util for safely accessing files out of terraform directory when relative path is not available."
-  type        = string
-  default     = "../../"
-}
