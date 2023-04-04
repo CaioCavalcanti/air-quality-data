@@ -20,9 +20,6 @@ on:
         required: true
       GCP_REGION:
         required: true
-    permissions:
-      contents: "read"
-      id-token: "write"
 
 jobs:
   build-and-publish:

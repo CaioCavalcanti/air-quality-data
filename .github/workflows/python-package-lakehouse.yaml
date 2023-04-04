@@ -11,6 +11,9 @@ on:
 jobs:
   build-and-publish:
     uses: ./.github/workflows/python-package-template.yaml
+    permissions:
+      contents: "read"
+      id-token: "write"
     with:
       package_name: air-quality-lakehouse
       setup_path: spark/air-quality-lakehouse/
