@@ -10,7 +10,7 @@ on:
 jobs:
   build-and-publish:
     name: Build and Publish Python package air-quality-orchestration
-    uses: ./.github/workflow-templates/build-and-publish-python-package.yaml
+    uses: ./.github/workflow/template-python-package.yaml
     permissions:
       contents: "read"
       id-token: "write"
