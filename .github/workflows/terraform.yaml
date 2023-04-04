@@ -24,7 +24,7 @@ jobs:
       GCP_DEVOPS_SERVICE_ACCOUNT: "${{ secrets.GCP_DEVOPS_SERVICE_ACCOUNT }}"
       TF_VAR_gcp_project_id: "${{ secrets.GCP_PROJECT_ID }}"
       TF_VAR_gcp_region: "${{ secrets.GCP_REGION }}"
-      TF_VAR_gcp_gcs_tfstate_bucket_name: "${{ secrets.GPC_GCS_TFSTATE_BUCKET_NAME }}"
+      TF_VAR_gcp_gcs_tfstate_bucket_name: "${{ secrets.GCP_GCS_TFSTATE_BUCKET_NAME }}"
 
     steps:
       - uses: actions/checkout@v3
@@ -62,7 +62,7 @@ jobs:
       GCP_DEVOPS_SERVICE_ACCOUNT: "${{ secrets.GCP_DEVOPS_SERVICE_ACCOUNT }}"
       TF_VAR_gcp_project_id: "${{ secrets.GCP_PROJECT_ID }}"
       TF_VAR_gcp_region: "${{ secrets.GCP_REGION }}"
-      TF_VAR_gcp_gcs_tfstate_bucket_name: "${{ secrets.GPC_GCS_TFSTATE_BUCKET_NAME }}"
+      TF_VAR_gcp_gcs_tfstate_bucket_name: "${{ secrets.GCP_GCS_TFSTATE_BUCKET_NAME }}"
 
     steps:
       - uses: actions/checkout@v3
