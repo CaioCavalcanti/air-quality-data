@@ -32,7 +32,7 @@ pip install \
     delta-spark==1.0.1
 
 pip install \
-    air-quality-spark==0.0.7 \
+    air-quality-lakehouse==0.0.7 \
     --index-url ${PYTHON_REGISTRY_URL}/simple/
 
 echo "Finished installing pip packages on worker node."
