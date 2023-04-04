@@ -17,7 +17,7 @@ jobs:
       id-token: "write"
     defaults:
       run:
-        working-directory: terraform/data-platform/
+        working-directory: terraform/
     env:
       GCP_WORKLOAD_IDENTITY_PROVIDER: "${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}"
       GCP_DEVOPS_SERVICE_ACCOUNT: "${{ secrets.GCP_DEVOPS_SERVICE_ACCOUNT }}"
@@ -51,7 +51,7 @@ jobs:
       id-token: "write"
     defaults:
       run:
-        working-directory: terraform/data-platform/
+        working-directory: terraform/
     needs: plan
     # use environment to enforce approval
     environment:
