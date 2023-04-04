@@ -1,5 +1,6 @@
 """
-Provide helper classes to work with the Lakehouse on Spark jobs without the heavy lifting.
+Provide context classes to work with the Lakehouse on Spark jobs without all the heavy lifting
+for setup.
 """
 
 from datetime import datetime

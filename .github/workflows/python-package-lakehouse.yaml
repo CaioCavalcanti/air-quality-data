@@ -1,4 +1,4 @@
-name: Publish and Publish Python Package air-quality-lakehouse
+name: Python Package air-quality-lakehouse
 
 on:
   push:

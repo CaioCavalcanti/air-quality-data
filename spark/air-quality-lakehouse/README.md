@@ -1,4 +1,4 @@
-# Air Quality Spark Python Package
+# Air Quality Lakehouse Python Package
 
 This package provides an abstraction layer for Spark with the Lakehouse architecture using Delta Lake, making it easier to write Spark jobs in a standard way, including metadata columns to improve observability.
 
@@ -7,7 +7,7 @@ This package provides an abstraction layer for Spark with the Lakehouse architec
 ## Loading from Raw to Base
 
 ```py
-from air_quality_spark.spark_helper import LakehouseContext
+from air_quality_lakehouse.context import LakehouseContext
 
 context = LakehouseContext('data_lake_gcs_bucket_name')
 
@@ -23,7 +23,7 @@ context.write_to_base(base_df, 'Events/')
 ## Loading from Base to Transformed
 
 ```py
-from air_quality_spark.spark_helper import LakehouseContext
+from air_quality_lakehouse.context import LakehouseContext
 
 context = LakehouseContext('data_lake_gcs_bucket_name')
 
@@ -34,4 +34,14 @@ transformed_df = raw_df.groupBy('date', 'type').sum('value')
 
 # this will write to 'gs://data_lake_gcs_bucket_name/Transformed/DailyEvents/'
 context.write_to_transformed(transformed_df, 'DailyEvents/')
+```
+
+## Accessing SparkSession
+
+```py
+from air_quality_lakehouse.context import LakehouseContext
+
+context = LakehouseContext('data_lake_gcs_bucket_name')
+
+spark = context.spark
 ```
