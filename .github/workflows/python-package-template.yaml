@@ -1,4 +1,4 @@
-name: Build and Publish Python Package
+name: Template - Build and Publish Python Package
 
 on:
   workflow_call:

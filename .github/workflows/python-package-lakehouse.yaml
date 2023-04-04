@@ -5,11 +5,11 @@ on:
     branches:
       - "main"
     paths:
-      - ".github/workflows/python-package-lakehouse.yaml"
       - "spark/air-quality-lakehouse/**"
 
 jobs:
   build-and-publish:
+    name: Build and Publish Python package air-quality-lakehouse
     uses: ./.github/workflows/python-package-template.yaml
     permissions:
       contents: "read"
