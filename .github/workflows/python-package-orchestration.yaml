@@ -1,22 +1,22 @@
-name: Python Package air-quality-lakehouse
+name: Python Package air-quality-orchestration
 
 on:
   push:
     branches:
       - "main"
     paths:
-      - "spark/air-quality-lakehouse/**"
+      - "spark/air-quality-orchestration/**"
 
 jobs:
   build-and-publish:
-    name: Build and Publish Python package air-quality-lakehouse
+    name: Build and Publish Python package air-quality-orchestration
     uses: ./.github/workflow-templates/build-and-publish-python-package.yaml
     permissions:
       contents: "read"
       id-token: "write"
     with:
-      package_name: air-quality-lakehouse
-      setup_path: spark/air-quality-lakehouse/
+      package_name: air-quality-orchestration
+      setup_path: spark/air-quality-orchestration/
     secrets:
       GCP_WORKLOAD_IDENTITY_PROVIDER: "${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}"
       GCP_DEVOPS_SERVICE_ACCOUNT: "${{ secrets.GCP_DEVOPS_SERVICE_ACCOUNT }}"
