@@ -3,10 +3,14 @@ variable "gcp_project_id" {
   type        = string
 }
 
+variable "gcp_gcs_tfstate_bucket_name" {
+  description = "The name of the GCS bucket used to store the terraform state."
+  type        = string
+}
+
 variable "gcp_region" {
   description = "The GCP region where the resources will be created."
   type        = string
-  default     = "europe-west4"
 }
 
 variable "github_repository" {
