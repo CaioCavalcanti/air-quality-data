@@ -1,0 +1,66 @@
+name: Build and Publish Docker Container Image prefect-agent
+
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - ".github/workflows/docker-prefect-agent.yaml"
+      - "spark/air-quality-lakehouse/**"
+
+jobs:
+  build-and-publish:
+    name: Build and Publish Docker Container Image prefect-agent
+    permissions:
+      contents: "read"
+      id-token: "write"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: prefect/prefect-agent
+    env:
+      GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+      GCP_DEVOPS_SERVICE_ACCOUNT: ${{ secrets.GCP_DEVOPS_SERVICE_ACCOUNT }}
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_REGION: ${{ secrets.GCP_REGION }}
+      GCP_PYTHON_REPOSITORY_NAME: ${{ secrets.GCP_PYTHON_REPOSITORY_NAME }}
+      GCP_DOCKER_REPOSITORY_NAME: ${{ secrets.GCP_DOCKER_REPOSITORY_NAME }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+          cache: "pip"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install twine==4.0.2 wheel==0.40.0 keyring==23.13.1 keyrings.google-artifactregistry-auth==1.1.2
+          pip install -r requirements.txt
+
+      - name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.GCP_DEVOPS_SERVICE_ACCOUNT }}
+
+      - name: "Set up Google Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
+
+      - name: Setup Artifact Registry
+        run: |
+          gcloud artifacts print-settings python --project=${GCP_PROJECT_ID} --repository=${GCP_PYTHON_REPOSITORY_NAME} --location=${GCP_REGION} > ~/.pypirc
+          gcloud auth configure-docker
+
+      - name: Download packages
+        run: |
+          pip download -r ./requirements.txt --dest ./__pypackages__/
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: gcr.io/${GCP_PROJECT_ID}/${GCP_DOCKER_REPOSITORY_NAME}/prefect-agent:latest
