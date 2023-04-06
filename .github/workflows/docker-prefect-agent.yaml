@@ -5,7 +5,7 @@ on:
     branches:
       - "main"
     paths:
-      - "spark/air-quality-lakehouse/**"
+      - "prefect/prefect-agent/**"
 
 jobs:
   build-and-publish:
