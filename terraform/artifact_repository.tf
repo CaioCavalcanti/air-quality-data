@@ -8,6 +8,12 @@ resource "google_artifact_registry_repository" "python" {
   ]
 }
 
+resource "google_artifact_registry_repository" "docker" {
+  location      = var.gcp_region
+  repository_id = "docker-${var.gcp_project_id}"
+  format        = "DOCKER"
+}
+
 resource "google_artifact_registry_repository_iam_member" "devops_sa_python_writer" {
   project    = google_artifact_registry_repository.python.project
   location   = google_artifact_registry_repository.python.location
