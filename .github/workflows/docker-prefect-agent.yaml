@@ -56,7 +56,7 @@ jobs:
 
       - name: Download packages
         run: |
-          pip download -r ./requirements.txt --dest ./__pypackages__/
+          pip download -r ./requirements.txt --dest ./__pypackages__/ --extra-index-url https://${GCP_REGION}-python.pkg.dev/${GCP_PROJECT_ID}/${GCP_PYTHON_REPOSITORY_NAME}/simple
 
       - name: Build and push
         uses: docker/build-push-action@v4
