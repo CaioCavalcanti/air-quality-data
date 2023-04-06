@@ -8,24 +8,8 @@ resource "google_artifact_registry_repository" "python" {
   ]
 }
 
-resource "google_artifact_registry_repository_iam_member" "devops_sa_python_writer" {
-  project    = google_artifact_registry_repository.python.project
-  location   = google_artifact_registry_repository.python.location
-  repository = google_artifact_registry_repository.python.name
-  role       = "roles/artifactregistry.writer"
-  member     = google_service_account.devops_service_account.member
-}
-
 resource "google_artifact_registry_repository" "docker" {
   location      = var.gcp_region
   repository_id = "docker-${var.gcp_project_id}"
   format        = "DOCKER"
-}
-
-resource "google_artifact_registry_repository_iam_member" "devops_sa_docker_writer" {
-  project    = google_artifact_registry_repository.docker.project
-  location   = google_artifact_registry_repository.docker.location
-  repository = google_artifact_registry_repository.docker.name
-  role       = "roles/artifactregistry.writer"
-  member     = google_service_account.devops_service_account.member
 }

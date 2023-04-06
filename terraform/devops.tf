@@ -4,11 +4,14 @@ locals {
     "iam.googleapis.com",
     "iamcredentials.googleapis.com",
     "artifactregistry.googleapis.com",
-    "dataproc.googleapis.com"
+    "dataproc.googleapis.com",
+    "container.googleapis.com",
+    "dns.googleapis.com"
   ]
   required_roles = [
     "roles/editor",
-    "roles/storage.admin"
+    "roles/storage.admin",
+    "roles/artifactregistry.admin"
   ]
 }
 
@@ -23,7 +26,7 @@ resource "google_service_account" "devops_service_account" {
   display_name = "DevOps Service Account"
 }
 
-resource "google_project_iam_member" "devops_service_account_editor" {
+resource "google_project_iam_member" "devops_service_account_required_roles" {
   for_each = toset(local.required_roles)
   project  = var.gcp_project_id
   role     = each.key
