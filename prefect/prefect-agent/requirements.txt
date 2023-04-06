@@ -3,4 +3,3 @@ gcsfs==2023.1.0
 pandas==1.5.3
 psycopg2-binary==2.9.6
 pyarrow==11.0.0
-pyyaml>=5.4.1
