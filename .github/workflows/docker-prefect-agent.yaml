@@ -62,4 +62,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: gcr.io/${{GCP_PROJECT_ID}}/${{GCP_DOCKER_REPOSITORY_NAME}}/prefect-agent:latest
+          tags: gcr.io/${{ env.GCP_PROJECT_ID }}/prefect-agent:latest
