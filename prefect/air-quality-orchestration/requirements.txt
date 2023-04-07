@@ -1,1 +1,2 @@
+prefect==2.9.0
 prefect-gcp[cloud_storage]==0.4.0
