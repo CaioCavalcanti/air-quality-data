@@ -28,17 +28,5 @@ resource "google_artifact_registry_repository_iam_member" "prefect_agent_service
   location   = google_artifact_registry_repository.docker.location
   repository = google_artifact_registry_repository.docker.name
   role       = "roles/artifactregistry.reader"
-  member     = google_service_account.devops_service_account.member
+  member     = google_service_account.prefect_agent_service_account.member
 }
-
-
-# resource "google_sql_database_instance" "prefect" {
-#   name                = "prefect"
-#   database_version    = "POSTGRES_14"
-#   region              = var.gcp_region
-#   # deletion_protection = false
-
-#   settings {
-#     tier = "db-f1-micro"
-#   }
-# }
