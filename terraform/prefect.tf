@@ -17,17 +17,28 @@ resource "google_service_account" "prefect_agent_service_account" {
   display_name = "Prefect Agent Service Account"
 }
 
-data "google_iam_policy" "prefect_flows_policy" {
-  binding {
-    role = "roles/storage.objectViewer"
-
-    members = [
-      google_service_account.prefect_agent_service_account.member
-    ]
-  }
+resource "google_storage_bucket_iam_member" "prefect_agent_service_account_reader_on_prefect_flows" {
+  bucket = google_storage_bucket.prefect_flows.name
+  role   = "roles/storage.objectViewer"
+  member = google_service_account.prefect_agent_service_account.member
 }
 
-resource "google_storage_bucket_iam_policy" "prefect_flows" {
-  bucket      = google_storage_bucket.prefect_flows.name
-  policy_data = data.google_iam_policy.prefect_flows_policy.policy_data
+resource "google_artifact_registry_repository_iam_member" "prefect_agent_service_account_reader_on_docker_repository" {
+  project    = google_artifact_registry_repository.docker.project
+  location   = google_artifact_registry_repository.docker.location
+  repository = google_artifact_registry_repository.docker.name
+  role       = "roles/artifactregistry.reader"
+  member     = google_service_account.devops_service_account.member
 }
+
+
+# resource "google_sql_database_instance" "prefect" {
+#   name                = "prefect"
+#   database_version    = "POSTGRES_14"
+#   region              = var.gcp_region
+#   # deletion_protection = false
+
+#   settings {
+#     tier = "db-f1-micro"
+#   }
+# }
