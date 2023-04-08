@@ -1,2 +1,2 @@
-air-quality-orchestration==0.0.3
+air-quality-orchestration==0.0.4
 gcsfs==2023.1.0
