@@ -114,11 +114,11 @@ resource "google_dataproc_cluster" "spark_cluster" {
     }
 
     software_config {
-      image_version = "2.1.19-debian11"
+      image_version = "2.1-debian11"
 
       override_properties = {
         "dataproc:dataproc.allow.zero.workers"    = "true",
-        "spark:spark.jars.packages"               = "io.delta:delta-core_2.12:1.0.1",
+        "spark:spark.jars.packages"               = "io.delta:delta-core_2.13:2.3.0",
         "spark:spark.sql.extensions"              = "io.delta.sql.DeltaSparkSessionExtension",
         "spark:spark.sql.catalog.spark_catalog"   = "org.apache.spark.sql.delta.catalog.DeltaCatalog",
         "spark:spark.bigquery.temporaryGcsBucket" = google_storage_bucket.spark_temp.name
