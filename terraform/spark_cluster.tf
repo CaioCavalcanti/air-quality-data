@@ -114,7 +114,7 @@ resource "google_dataproc_cluster" "spark_cluster" {
     }
 
     software_config {
-      image_version = "2.0.35-debian10"
+      image_version = "2.1.19-debian11"
 
       override_properties = {
         "dataproc:dataproc.allow.zero.workers"    = "true",

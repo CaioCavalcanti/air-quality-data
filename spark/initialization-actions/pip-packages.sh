@@ -25,14 +25,6 @@ index-servers =
 repository: ${PYTHON_REGISTRY_URL}
 EOF
 
-# install dependencies manually while remote repositories is in preview
-# See https://cloud.google.com/artifact-registry/docs/repositories/remote-repo
-pip install \
-    pyspark==3.1.3 \
-    delta-spark==1.0.1
-
-pip install \
-    air-quality-lakehouse==0.0.7 \
-    --index-url ${PYTHON_REGISTRY_URL}/simple/
+pip install air-quality-lakehouse==0.0.8 --extra-index-url ${PYTHON_REGISTRY_URL}/simple/
 
 echo "Finished installing pip packages on worker node."
