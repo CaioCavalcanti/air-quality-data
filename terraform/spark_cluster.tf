@@ -15,6 +15,12 @@ resource "google_project_iam_member" "spark_agent_service_account_bigquery_job_u
   member  = google_service_account.spark_agent_service_account.member
 }
 
+resource "google_storage_bucket_iam_member" "spark_agent_service_account_object_admin_on_data_lake" {
+  bucket = google_storage_bucket.data_lake.name
+  role   = "roles/storage.objectAdmin"
+  member = google_service_account.spark_agent_service_account.member
+}
+
 resource "google_artifact_registry_repository_iam_member" "spark_agent_service_account_python_artifact_reader" {
   project    = var.gcp_project_id
   location   = var.gcp_region
