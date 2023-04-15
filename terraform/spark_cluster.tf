@@ -88,7 +88,7 @@ resource "google_dataproc_cluster" "spark_cluster" {
       ]
 
       metadata = {
-        "spark-bigquery-connector-url" : "gs://spark-lib/bigquery/spark-3.1-bigquery-0.29.0-preview.jar",
+        "spark-bigquery-connector-url" : "gs://spark-lib/bigquery/spark-3.3-bigquery-0.29.0-preview.jar",
         "python-registry-project-id" : var.gcp_project_id,
         "python-registry-region" : var.gcp_region,
         "python-registry-name" : google_artifact_registry_repository.python.name
@@ -118,17 +118,12 @@ resource "google_dataproc_cluster" "spark_cluster" {
 
       override_properties = {
         "dataproc:dataproc.allow.zero.workers"    = "true",
-        "spark:spark.jars.packages"               = "io.delta:delta-core_2.13:2.3.0",
+        "dataproc:pip.packages"                   = "aqipy-atmotech==0.1.5",
+        "spark:spark.jars.packages"               = "io.delta:delta-core_2.12:2.3.0",
         "spark:spark.sql.extensions"              = "io.delta.sql.DeltaSparkSessionExtension",
         "spark:spark.sql.catalog.spark_catalog"   = "org.apache.spark.sql.delta.catalog.DeltaCatalog",
         "spark:spark.bigquery.temporaryGcsBucket" = google_storage_bucket.spark_temp.name
       }
-
-      optional_components = ["JUPYTER"]
-    }
-
-    endpoint_config {
-      enable_http_port_access = "true"
     }
 
     preemptible_worker_config {
