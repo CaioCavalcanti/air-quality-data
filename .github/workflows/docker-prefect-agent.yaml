@@ -64,4 +64,4 @@ jobs:
         with:
           context: prefect/prefect-agent
           push: true
-          tags: ${{ env.GCP_DOCKER_REPOSITORY_HOSTNAME }}/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_DOCKER_REPOSITORY_NAME }}/prefect-agent:latest
+          tags: ${{ env.GCP_DOCKER_REPOSITORY_HOSTNAME }}/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_DOCKER_REPOSITORY_NAME }}/prefect-agent:0.0.${{ github.run_number }}
