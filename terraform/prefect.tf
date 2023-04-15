@@ -48,3 +48,11 @@ resource "google_storage_bucket_iam_member" "prefect_agent_service_account_objec
   role   = "roles/storage.objectAdmin"
   member = google_service_account.prefect_agent_service_account.member
 }
+
+# GCS block on Prefect requires the permission storage.buckets.get
+# Consider creating a custom role if needed.
+resource "google_storage_bucket_iam_member" "prefect_agent_service_account_object_admin_on_data_lake" {
+  bucket = google_storage_bucket.data_lake.name
+  role   = "roles/storage.legacyBucketReader"
+  member = google_service_account.prefect_agent_service_account.member
+}
